@@ -1,0 +1,19 @@
+set export
+
+bin := "/home/tuni/Documents/mailbox/rust-mailbox-renode/rust/target/riscv32imac-unknown-none-elf/debug/rust"
+
+default:
+    just --help
+
+run:
+    cargo run
+
+tio:
+    tio /tmp/uart -e -m INLCRNL
+
+debug:
+    riscv32-unknown-elf-gdb -x connect.gdb $bin
+
+sections:
+    size -Ax $bin
+

@@ -1,0 +1,16 @@
+:Start a 32-bit RISC-V machine.
+:
+:Parameters
+:- $platform_path := Platform. Basename without extension from platforms/{basename}.repl
+:- $bin := Binary. Full path, as received from `cargo run`
+using sysbus
+
+mach create
+
+machine LoadPlatformDescription $platform_path
+
+sysbus LoadELF $bin
+
+machine StartGdbServer 3333
+
+start
