@@ -7,6 +7,9 @@ RENODE_START_PATH := "./scripts/start.resc"
 default:
     just --help
 
+build: 
+    cd rust && cargo build
+    
 renode:
     renode --console -e "set bin @$BINARY_FILE_PATH; set platform_path @$PLATFORM_PATH; include @$RENODE_START_PATH"
     

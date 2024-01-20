@@ -6,11 +6,17 @@
 using sysbus
 
 mach create
-
 machine LoadPlatformDescription $platform_path
 
-sysbus LoadELF $bin
+i $ORIGIN/uart-setup.resc
+
+showAnalyzer sysbus.uart
+
+macro reset
+"""
+    sysbus LoadELF $bin
+"""
 
 machine StartGdbServer 3333
-
+runMacro $reset;
 start
