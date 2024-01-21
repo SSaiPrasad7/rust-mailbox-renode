@@ -24,8 +24,8 @@ fn main() -> ! {
 
     unsafe {
         ptr::write_volatile((uart_base_addr + uart_setup_offset) as *mut u32, uart_config);
-        ptr::write_volatile((uart_base_addr + uart_tx_saddr) as *mut u32, s.len() as u32);
-        ptr::write_volatile((uart_base_addr + uart_tx_size) as *mut u32, s.as_ptr() as u32);
+        ptr::write_volatile((uart_base_addr + uart_tx_saddr) as *mut u32, s.as_ptr() as u32);
+        ptr::write_volatile((uart_base_addr + uart_tx_size) as *mut u32, s.len() as u32);
         ptr::write_volatile((uart_base_addr + uart_tx_cfg) as *mut u32, 1 << 4);
         let value = ptr::read_volatile((uart_base_addr + uart_tx_saddr) as *mut u32);
         while value != 0 {}
