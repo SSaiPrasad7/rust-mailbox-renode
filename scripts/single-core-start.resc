@@ -8,8 +8,6 @@ using sysbus
 mach create
 machine LoadPlatformDescription $platform_path
 
-i $ORIGIN/uart-setup.resc
-
 showAnalyzer sysbus.uart
 
 macro reset

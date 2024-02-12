@@ -1,0 +1,26 @@
+:Start a 32-bit RISC-V machine.
+:
+:Parameters
+:- $platform_path := Platform. Basename without extension from platforms/{basename}.repl
+:- $bin0 := Binary. Full path, as received from `cargo run`
+:- $bin1 := Binary. Full path, as received from `cargo run`
+
+# Create Machine & Load config
+mach create "dual_core_v_mcu"
+machine LoadPlatformDescription $platform_path
+
+# Enable GDB
+machine StartGdbServer 3333 true sysbus.cpu0
+machine StartGdbServer 3334 true sysbus.cpu1
+
+# UART config
+showAnalyzer sysbus.uart0
+
+macro reset
+"""
+    sysbus LoadELF $bin0 false true sysbus.cpu0
+    sysbus LoadELF $bin1 false true sysbus.cpu1
+"""
+
+runMacro $reset;
+start
