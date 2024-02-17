@@ -1,15 +1,6 @@
 MEMORY
 {
   RAM : ORIGIN = 0x1C000000, LENGTH = 512K
-  SHARED : ORIGIN = ORIGIN(RAM) + LENGTH(RAM), LENGTH = 512K
-}
-
-SECTIONS 
-{
-.shared_data ORIGIN(SHARED) :
-  {
-   *(.shared_data .shared_data.*);
-  } > SHARED
 }
 
 REGION_ALIAS("REGION_TEXT", RAM);

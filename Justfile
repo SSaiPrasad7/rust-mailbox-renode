@@ -13,28 +13,28 @@ CORE_1_BINARY_FILE_PATH := "./rust/dual-core/core1/target/riscv32imac-unknown-no
 default:
     just --help
 
-single_core_build: 
+single-core-build: 
     cd rust/single-core && cargo build
     
-single_core_sections:
+single-core-sections:
     size -Ax $SINGLE_CORE_BINARY_FILE_PATH
 
-single_core_renode:
+single-core-renode:
     renode --console -e "set bin @$SINGLE_CORE_BINARY_FILE_PATH; set platform_path @$SINGLE_CORE_PLATFORM_PATH; include @$SINGLE_CORE_RENODE_START_PATH"
     
-single_core_debug:
+single-core-debug:
     riscv32-unknown-elf-gdb -x ./scripts/connect.gdb $SINGLE_CORE_BINARY_FILE_PATH
 
-dual_core_build: 
+dual-core-build: 
     cd rust/dual-core/core0 && cargo build
     cd rust/dual-core/core1 && cargo build
 
-dual_core_sections:
+dual-core-sections:
     size -Ax $CORE_0_BINARY_FILE_PATH
     size -Ax $CORE_1_BINARY_FILE_PATH
 
-dual_core_renode:
+dual-core-renode:
     renode --console -e "set bin0 @$CORE_0_BINARY_FILE_PATH; set bin1 @$CORE_1_BINARY_FILE_PATH; set platform_path @$DUAL_CORE_PLATFORM_PATH; include @$DUAL_CORE_RENODE_START_PATH"
     
-dual_core_debug:
+dual-core-debug:
     riscv32-unknown-elf-gdb -x ./scripts/connect.gdb $CORE_0_BINARY_FILE_PATH

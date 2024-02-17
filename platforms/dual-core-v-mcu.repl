@@ -1,47 +1,44 @@
-sharedSram: Memory.MappedMemory @ sysbus 0x1C080000
-    size: 0x80000
-
-bootRom0: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration { 
-    address: 0x1A000000;
-    cpu: cpu0 
-    }
-    size: 0x2000
-
-bootRom1: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration { 
-    address: 0x1A000000;
-    cpu: cpu1 
-    }
-    size: 0x2000
-
-ram0: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration { 
-    address: 0x1C000000;
-    cpu: cpu0 
-    }
-    size: 0x80000
-
-ram1: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration { 
-    address: 0x1C000000;
-    cpu: cpu1
-    }
-    size: 0x80000
-
 cpu0: CPU.CV32E40P @ sysbus
     privilegeArchitecture: PrivilegeArchitecture.Priv1_11
     // We are overriding the default value to include information about coreID and clusterID
     HartId: 0x3e0
+
+bootRom0: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration { 
+        address: 0x1A000000;
+        cpu: cpu0
+    }
+    size: 0x2000
+
+ram0: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration { 
+        address: 0x1C000000;
+        cpu: cpu0 
+    }
+    size: 0x80000
 
 cpu1: CPU.CV32E40P @ sysbus
     privilegeArchitecture: PrivilegeArchitecture.Priv1_11
     // We are overriding the default value to include information about coreID and clusterID
     HartId: 0x3e1
 
+bootRom1: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration { 
+        address: 0x1A000000;
+        cpu: cpu1 
+    }
+    size: 0x2000
+
+ram1: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration { 
+        address: 0x1C000000;
+        cpu: cpu1
+    }
+    size: 0x80000
+
 itc: IRQControllers.PULP_InterruptController @ sysbus 0x1A109800
-    [0-31] -> cpu0@[0-31]
+    [0-31] -> cpu0@[0-31] cpu1@[0-31]
 
 itc_ev: IRQControllers.PULP_EventController @ itc
     parent: itc
 
-uart0: UART.PULP_uDMA_UART @ sysbus 0x1A102100
+uart: UART.PULP_uDMA_UART @ sysbus 0x1A102100
     RxIRQ -> itc_ev@4
     TxIRQ -> itc_ev@5
 

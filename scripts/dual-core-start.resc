@@ -14,7 +14,7 @@ machine StartGdbServer 3333 true sysbus.cpu0
 machine StartGdbServer 3334 true sysbus.cpu1
 
 # UART config
-showAnalyzer sysbus.uart0
+showAnalyzer sysbus.uart
 
 macro reset
 """

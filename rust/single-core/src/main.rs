@@ -4,7 +4,6 @@
 use panic_halt as _;
 
 use riscv_rt::entry;
-use core::arch::asm;
 use core::ptr;
 
 #[entry]
@@ -31,12 +30,5 @@ fn main() -> ! {
         while value != 0 {}
     }
     
-    // Busy-wait a moment for extra safety
-    for _ in 0..10_000 {
-        unsafe {
-            asm!("nop");
-        }
-    }
-
-    loop { continue; }
+    loop {}
 }
