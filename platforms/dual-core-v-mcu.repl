@@ -1,3 +1,6 @@
+sharedSram: Memory.MappedMemory @ sysbus 0x1C080000
+    size: 0x80000
+
 cpu0: CPU.CV32E40P @ sysbus
     privilegeArchitecture: PrivilegeArchitecture.Priv1_11
     // We are overriding the default value to include information about coreID and clusterID
