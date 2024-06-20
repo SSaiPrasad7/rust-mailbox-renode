@@ -1,0 +1,9 @@
+[workspace]
+members = ["udma-uart", "single-core", "dual-core/core0", "dual-core/core1"]
+resolver = "2"
+
+[workspace.dependencies]
+panic-halt = "0.2.0"
+riscv = "0.11.0"
+riscv-rt = { version = "0.12.0", features = ["single-hart"] }
+udma-uart = { path = "udma-uart" }
