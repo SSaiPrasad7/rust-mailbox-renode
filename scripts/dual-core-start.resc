@@ -6,7 +6,7 @@
 :- $bin1 := Binary. Full path, as received from `cargo run`
 
 # Create Machine & Load config
-mach create "dual_core_v_mcu"
+mach create "dual-core"
 machine LoadPlatformDescription $platform_path
 
 # Enable GDB

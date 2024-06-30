@@ -26,7 +26,7 @@ bootRom1: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration {
     }
     size: 0x2000
 
-itc: IRQControllers.PULP_InterruptController @ sysbus 0x1A109800
+itc: IRQControllers.PULP_InterruptController @ sysbus 0x1A109000
     [0-31] -> cpu0@[0-31] cpu1@[0-31]
 
 itc_ev: IRQControllers.PULP_EventController @ itc

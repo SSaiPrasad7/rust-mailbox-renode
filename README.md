@@ -11,4 +11,4 @@ Mailbox Experimentation on a dual core 32-bit RISC-V platform on Renode using ru
 
 ## Debugging using GDB
 - Single core: `just single-core-debug`
-- Dual core: `just dual-core-debug` (NA)
+- Dual core: `just dual-core-debug`
