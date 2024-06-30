@@ -5,7 +5,7 @@
 :- $bin := Binary. Full path, as received from `cargo run`
 using sysbus
 
-mach create
+mach create "single-core"
 machine LoadPlatformDescription $platform_path
 
 showAnalyzer sysbus.uart
