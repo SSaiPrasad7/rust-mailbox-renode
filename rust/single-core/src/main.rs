@@ -65,12 +65,12 @@ fn main() -> ! {
             if (int_reg_value >> SW_INT_ID) & 1 == 0 {
                 delay(37_000_000);
 
+                // Enable global machine interrupts
+                mstatus::set_mie();
+                
                 // Set machine fast software interrupt in ITC PULP IRQ INTERRUPT register
                 let interrupt_set_reg: *mut u32 = (ITC_BASE_ADDR + ITC_INT_SET_OFFSET) as *mut u32;
                 write_volatile(interrupt_set_reg, 1 << SW_INT_ID);
-
-                // Enable global machine interrupts
-                mstatus::set_mie();
             }
         }
     }
