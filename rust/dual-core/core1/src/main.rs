@@ -5,8 +5,8 @@
 
 use core::ptr::write_volatile;
 use panic_halt as _;
+use core::arch::asm;
 use riscv::{
-    // asm::delay,
     register::{mcause, mie, mstatus, mtvec},
 };
 use riscv_rt::entry;
@@ -50,15 +50,21 @@ unsafe extern "C" fn _mfast_soft_int_handler() {
     match mcause::read().cause() {
         mcause::Trap::Interrupt(mcause::Interrupt::MachineFast16) => {
             // udma_uart::sprintln!("Core 1: Hello from {}", "Interrupt Handler");
+            
             // let value = read_from_mailbox(1);
             // udma_uart::sprintln!("Core 1: Reading value {} from shared memory.", value);
             // write_to_mailbox(value + 1, 1);
+            let mut counter: u32;
+            asm!("csrr {}, cycle", out(reg) counter);
+            udma_uart::sprintln!("Core 1: read cycle counter 1: {}", counter);
             udma_uart::sprintln!("Core 1: Reading the mailbox:");
             udma_uart::sprintln!("{:?}", MAILBOX);
+            asm!("csrr {}, cycle", out(reg) counter);
+            udma_uart::sprintln!("Core 1: read cycle counter 2: {}", counter);
 
-            // Clear machine fast software interrupt number 16
-            let interrupt_clr_reg = (ITC_BASE_ADDR + ITC_INT_CLR_OFFSET) as *mut u32;
-            write_volatile(interrupt_clr_reg, 1 << SW_INTERRUPT_ID_16);
+            // // Clear machine fast software interrupt number 16
+            // let interrupt_clr_reg = (ITC_BASE_ADDR + ITC_INT_CLR_OFFSET) as *mut u32;
+            // write_volatile(interrupt_clr_reg, 1 << SW_INTERRUPT_ID_16);
 
             // // Trigger machine fast software interrupt number 17
             // let interrupt_set_reg: *mut u32 = (ITC_BASE_ADDR +
@@ -93,5 +99,5 @@ fn main() -> ! {
         mstatus::set_mie();
     }
 
-    loop {}
+    loop {unsafe{riscv::asm::wfi();}}
 }
